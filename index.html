@@ -5,19 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fantasy World</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        h1 { color: darkred; }
+        body { text-align: center; font-family: Arial, sans-serif; background-color: #121212; color: white; }
+        h1 { color: gold; }
+        #chat-box { width: 60%; margin: 20px auto; height: 300px; border: 1px solid gray; padding: 10px; overflow-y: scroll; background: black; color: white; }
+        input { width: 60%; padding: 10px; margin-top: 10px; }
         button { padding: 10px 20px; font-size: 16px; }
     </style>
 </head>
 <body>
     <h1>Welcome to the Fantasy World!</h1>
-    <p>Click the button to begin your adventure.</p>
-    <button onclick="startAdventure()">Start Adventure</button>
+    <div id="chat-box">
+        <p><strong>AI Dungeon Master:</strong> Welcome, traveler! What do you do?</p>
+    </div>
+    <input type="text" id="user-input" placeholder="Type your action...">
+    <button onclick="sendMessage()">Send</button>
 
     <script>
-        function startAdventure() {
-            alert("Your journey begins...");
+        function sendMessage() {
+            let inputField = document.getElementById("user-input");
+            let chatBox = document.getElementById("chat-box");
+            let userMessage = inputField.value;
+
+            if (userMessage.trim() !== "") {
+                chatBox.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+
+                // Simple AI response (we'll upgrade this later)
+                let aiResponse = getAIResponse(userMessage);
+                setTimeout(() => {
+                    chatBox.innerHTML += `<p><strong>AI Dungeon Master:</strong> ${aiResponse}</p>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 1000);
+
+                inputField.value = "";
+            }
+        }
+
+        function getAIResponse(userInput) {
+            userInput = userInput.toLowerCase();
+            if (userInput.includes("attack")) return "You swing your sword! The enemy dodges.";
+            if (userInput.includes("run")) return "You run away safely.";
+            if (userInput.includes("look around")) return "You see a dark forest and a small path leading forward.";
+            return "I don't understand. Try something else!";
         }
     </script>
 </body>
