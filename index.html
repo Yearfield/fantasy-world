@@ -48,7 +48,7 @@
                 "Authorization": `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: "mistral-7b",  
+                model: "infermatic/mn-inferor-12b",  
                 messages: [{ role: "system", content: "You are a fantasy dungeon master." },
                            { role: "user", content: userInput }]
             })
