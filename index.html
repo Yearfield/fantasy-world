@@ -40,6 +40,7 @@
         const apiKey = "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";  // Replace with your actual OpenRouter key
         const endpoint = "https://openrouter.ai/api/v1/chat/completions";
 
+        try {
         const response = await fetch(endpoint, {
             method: "POST",
             headers: {
@@ -47,15 +48,25 @@
                 "Authorization": `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: "mistral-7b",  // You can test other free models later
-                messages: [{ role: "system", content: "You are a fantasy dungeon master. Guide the player through a text-based adventure." },
+                model: "mistral-7b",  
+                messages: [{ role: "system", content: "You are a fantasy dungeon master." },
                            { role: "user", content: userInput }]
             })
         });
 
         const data = await response.json();
-        return data.choices[0].message.content;
+        console.log("Full API Response:", data);  // Debugging log
+
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${data.error?.message || "Unknown error"}`);
+        }
+
+        return data.choices ? data.choices[0].message.content : "No response from AI.";
+    } catch (error) {
+        console.error("Fetch error:", error);
+        return `An error occurred: ${error.message}`;
     }
+}
 </script>
 
 </body>
